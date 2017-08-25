@@ -1,9 +1,9 @@
-const Koe = require('../');
+const Koae = require('../');
 const expect = require('unexpected').clone().use(require('unexpected-koa'));
 
 it('should allow mounting an app as a middleware', () => {
-    const app = new Koe();
-    const wrapApp = new Koe();
+    const app = new Koae();
+    const wrapApp = new Koae();
 
     app.use(async (ctx, next) => {
         ctx.status = 418;
@@ -22,8 +22,8 @@ it('should allow mounting an app as a middleware', () => {
 });
 
 it('should mount an app with a path prefix', async () => {
-    const app = new Koe();
-    const wrapApp = new Koe();
+    const app = new Koae();
+    const wrapApp = new Koae();
 
     app.use(async (ctx, next) => {
         ctx.status = 418;
@@ -47,7 +47,7 @@ it('should mount an app with a path prefix', async () => {
 });
 
 it('should mount a middleware with a path prefix', async () => {
-    const app = new Koe();
+    const app = new Koae();
 
     app.use('/foo', async (ctx, next) => {
         ctx.status = 418;

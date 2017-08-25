@@ -1,8 +1,8 @@
-const Koe = require('../');
+const Koae = require('../');
 const expect = require('unexpected').clone().use(require('unexpected-koa'));
 
 it('should work as koa', () => {
-    const app = new Koe();
+    const app = new Koae();
 
     app.use(async (ctx, next) => {
         ctx.status = 418;

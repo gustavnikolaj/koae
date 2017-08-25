@@ -1,11 +1,11 @@
 /* global beforeAll */
 
-const Koe = require('../');
+const Koae = require('../');
 const expect = require('unexpected').clone().use(require('unexpected-koa'));
 
 describe('params', () => {
     it('should pass params in opts', () => {
-        const app = new Koe();
+        const app = new Koae();
 
         app.get('/user/:id', (ctx, ...restArgs) => {
             ctx.headers['Content-Type'] = 'application/json';
@@ -26,7 +26,7 @@ describe('params', () => {
 describe('GET', () => {
     let app;
     beforeAll(() => {
-        app = new Koe();
+        app = new Koae();
 
         app.get('/foo', async (ctx, next) => {
             ctx.status = 418;
@@ -66,11 +66,11 @@ describe('GET', () => {
     });
 });
 
-for (const method of Koe.methods.filter(method => method !== 'get')) {
+for (const method of Koae.methods.filter(method => method !== 'get')) {
     describe(method.toUpperCase(), () => {
         let app;
         beforeAll(() => {
-            app = new Koe();
+            app = new Koae();
 
             app[method]('/foo', async (ctx, next) => {
                 ctx.status = 418;
