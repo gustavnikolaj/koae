@@ -4,11 +4,15 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
+    "ci": "npm run coverage",
     "coverage": "jest --coverage",
     "test": "jest --watch"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "koa",
+    "express"
+  ],
+  "author": "Gustav Nikolaj Olsen <gustavnikolaj@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "jest": "^20.0.4",
