@@ -1,5 +1,6 @@
 const Koae = require('../');
 const expect = require('unexpected').clone().use(require('unexpected-koa'));
+const { koae } = Koae;
 
 it('should allow mounting an app as a middleware', () => {
     const app = new Koae();
@@ -53,6 +54,30 @@ it('should mount a middleware with a path prefix', async () => {
         ctx.status = 418;
         ctx.body = 'Foobar';
     });
+
+    await expect(app, 'to yield exchange', {
+        request: 'GET /foo',
+        response: {
+            statusCode: 418,
+            body: 'Foobar'
+        }
+    });
+
+    await expect(app, 'to yield exchange', {
+        request: 'GET /',
+        response: 404
+    });
+});
+
+it('should work with function shorthand', async () => {
+    const app = koae().use(
+        '/foo',
+        koae()
+            .use(async (ctx, next) => {
+                ctx.status = 418;
+                ctx.body = 'Foobar';
+            })
+    );
 
     await expect(app, 'to yield exchange', {
         request: 'GET /foo',
