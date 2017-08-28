@@ -7,11 +7,11 @@ it('should be able to use a koa router instance', async () => {
     const router = new Router({ prefix: '/foo' });
 
     router
-        .get('/bar', ctx => ctx.body = 'router>foo>bar')
-        .get('/baz', ctx => ctx.body = 'router>foo>baz');
+        .get('/bar', ctx => { ctx.body = 'router>foo>bar'; })
+        .get('/baz', ctx => { ctx.body = 'router>foo>baz'; });
 
     app
-        .get('/foo/qux', ctx => ctx.body = 'router>foo>qux');
+        .get('/foo/qux', ctx => { ctx.body = 'router>foo>qux'; });
 
     app.use(router.routes());
 
