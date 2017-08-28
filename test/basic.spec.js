@@ -1,10 +1,8 @@
-const Koae = require('../');
+const koae = require('../');
 const expect = require('unexpected');
 
-it('should export a function api as an alternative', () => {
-    expect(Koae.koae, 'to be a function');
-});
-
-it('should return an instance of Koae when called', () => {
-    expect(Koae.koae(), 'to be a', Koae);
+it('should export the constructor', () => {
+    const { Koae } = koae;
+    expect(Koae, 'to be a function');
+    expect(new Koae(), 'to be a', Koae);
 });

@@ -1,9 +1,9 @@
 const expect = require('unexpected').clone().use(require('unexpected-koa'));
 const Router = require('koa-router');
-const Koae = require('../');
+const koae = require('../');
 
 it('should be able to use a koa router instance', async () => {
-    const app = new Koae();
+    const app = koae();
     const router = new Router({ prefix: '/foo' });
 
     router

@@ -1,4 +1,4 @@
-const Koae = require('../');
+const { Koae } = require('../');
 const expect = require('unexpected').clone().use(require('unexpected-koa'));
 
 it('should work as koa', () => {

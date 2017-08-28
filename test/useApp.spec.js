@@ -1,19 +1,16 @@
-const Koae = require('../');
+const koae = require('../');
 const expect = require('unexpected').clone().use(require('unexpected-koa'));
-const { koae } = Koae;
 
 it('should allow mounting an app as a middleware', () => {
-    const app = new Koae();
-    const wrapApp = new Koae();
+    const app = koae().use(
+        koae()
+            .use(async (ctx, next) => {
+                ctx.status = 418;
+                ctx.body = 'Foobar';
+            })
+    );
 
-    app.use(async (ctx, next) => {
-        ctx.status = 418;
-        ctx.body = 'Foobar';
-    });
-
-    wrapApp.use(app);
-
-    return expect(wrapApp, 'to yield exchange', {
+    return expect(app, 'to yield exchange', {
         request: 'GET /',
         response: {
             statusCode: 418,
@@ -23,17 +20,15 @@ it('should allow mounting an app as a middleware', () => {
 });
 
 it('should mount an app with a path prefix', async () => {
-    const app = new Koae();
-    const wrapApp = new Koae();
+    const app = koae().use(
+        '/foo',
+        koae().use(async (ctx, next) => {
+            ctx.status = 418;
+            ctx.body = 'Foobar';
+        })
+    );
 
-    app.use(async (ctx, next) => {
-        ctx.status = 418;
-        ctx.body = 'Foobar';
-    });
-
-    wrapApp.use('/foo', app);
-
-    await expect(wrapApp, 'to yield exchange', {
+    await expect(app, 'to yield exchange', {
         request: 'GET /foo',
         response: {
             statusCode: 418,
@@ -41,43 +36,19 @@ it('should mount an app with a path prefix', async () => {
         }
     });
 
-    await expect(wrapApp, 'to yield exchange', {
+    await expect(app, 'to yield exchange', {
         request: 'GET /',
         response: 404
     });
 });
 
 it('should mount a middleware with a path prefix', async () => {
-    const app = new Koae();
+    const app = koae();
 
     app.use('/foo', async (ctx, next) => {
         ctx.status = 418;
         ctx.body = 'Foobar';
     });
-
-    await expect(app, 'to yield exchange', {
-        request: 'GET /foo',
-        response: {
-            statusCode: 418,
-            body: 'Foobar'
-        }
-    });
-
-    await expect(app, 'to yield exchange', {
-        request: 'GET /',
-        response: 404
-    });
-});
-
-it('should work with function shorthand', async () => {
-    const app = koae().use(
-        '/foo',
-        koae()
-            .use(async (ctx, next) => {
-                ctx.status = 418;
-                ctx.body = 'Foobar';
-            })
-    );
 
     await expect(app, 'to yield exchange', {
         request: 'GET /foo',
